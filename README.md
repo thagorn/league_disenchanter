@@ -19,7 +19,7 @@ Change these in config.json
   * disable_certificate_check: set to true if you want to skip the certificate check instead of downloading the pem
 
 ### Getting root certificate
-Download the root certificate from https://static.developer.riotgames.com/docs/lol/riotgames.pem
-Set the location you've downloaded it to in config.json
-OR
-Set "disable_certificate_check" to true in config.json
+* Download the root certificate from https://static.developer.riotgames.com/docs/lol/riotgames.pem
+* Set the location you've downloaded it to in config.json  
+**OR**
+* Set "disable_certificate_check" to true in config.json
