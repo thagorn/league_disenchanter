@@ -1,0 +1,12 @@
+{
+    "host": "https://127.0.0.1",
+    "install_directory": "/mnt/c/Program Files (x86)/League of Legends",
+    "minimum_champ_shards": 2,
+    "minimum_skin_shards": 1,
+    "minimum_ward_skin_shards": 1,
+    "minimum_eternals": 0,
+    "minimum_icons": 0,
+    "disenchant_owned_skins": true,
+    "root_certificate_location": "riotgames.pem",
+    "disable_certificate_check": false
+}
