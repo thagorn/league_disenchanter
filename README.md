@@ -3,7 +3,8 @@
 ## How to run
 
 1. Log into the League of Legends client
-2. Run `python3 loot_manager.py`
+2. Run `python3 loot_manager.py summarize` to list the current state of your inventory  
+   or  `python3 loot_manager.py disenchant` to disenchant any spare loot in your inventory 
 
 ## Config settings
 Change these in config.json
