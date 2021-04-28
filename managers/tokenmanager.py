@@ -18,7 +18,7 @@ class TokenManager:
         count = tokens[0]["count"]
         print(f"You have {count} Champion Mastery {mastery} token{'s' if count > 1 else ''} for: {self._names(tokens)} ")
 
-    def print(self):
+    def summarize(self):
         self._print_row(self.six[0], 6)
         self._print_row(self.six[1], 6)
         self._print_row(self.seven[0], 7)

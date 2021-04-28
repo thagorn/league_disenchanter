@@ -13,15 +13,15 @@ class LootInventory:
 
     def _process(self, item):
         if item["type"] == "CHAMPION_RENTAL":
-            self.shards.process(item)
+            self.shards.load(item)
         elif item["type"] == "SKIN_RENTAL":
-            self.shards.process(item)
+            self.shards.load(item)
         elif item["type"] == "WARDSKIN_RENTAL":
-            self.shards.process(item)
+            self.shards.load(item)
         elif item["type"] == "STATSTONE_SHARD":
-            self.shards.process(item)
+            self.shards.load(item)
         elif item["type"] == "SUMMONERICON":
-            self.shards.process(item)
+            self.shards.load(item)
         elif item["type"] == "CURRENCY":
             self.materials.process(item)
         elif item["type"] == "MATERIAL":
@@ -31,8 +31,8 @@ class LootInventory:
         elif item["type"] == "CHAMPION_TOKEN":
             self.tokens.process(item)
 
-    def print(self):
-        self.materials.print()
-        self.tokens.print()
-        self.shards.print()
+    def summarize(self):
+        self.materials.summarize()
+        self.tokens.summarize()
+        self.shards.summarize()
 
