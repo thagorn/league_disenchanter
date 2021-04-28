@@ -23,14 +23,12 @@ def summarize_inventory():
 
 def disenchant_extras():
     api_accessor = ApiAccessor()
+    loot_inventory = LootInventory(api_accessor.get_loot_data())
     crafting_result = CraftResult()
-    shards_disenchanted = 0
-    for i in range(0, 3):
-        count = 2
-        result = api_accessor.disenchant_champion_shard("CHAMPION_RENTAL_11", count)
+    disenchant_results = loot_inventory.disenchant_extras()
+    for result in disenchant_results:
         crafting_result.add_result(result)
-        shards_disenchanted += count
-    print(f"After disenchanting {shards_disenchanted} shards:")
+    crafting_result.list_disenchanting_costs()
     crafting_result.list_gains()
         
 def run():

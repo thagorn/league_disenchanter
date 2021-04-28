@@ -31,6 +31,9 @@ class LootInventory:
         elif item["type"] == "CHAMPION_TOKEN":
             self.tokens.process(item)
 
+    def disenchant_extras(self):
+        return self.shards.disenchant_extras()
+
     def summarize(self):
         self.materials.summarize()
         self.tokens.summarize()

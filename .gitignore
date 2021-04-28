@@ -1,3 +1,5 @@
+# don't check in testing pickles
+*.pickle
 # don't check in output file
 output.txt
 # don't store Riot's cert

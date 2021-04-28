@@ -1,7 +1,13 @@
 import requests
 from util.config import Config
 
-import json
+DISENCHANT_RECIPES = {
+    "CHAMPION_RENTAL": "CHAMPION_RENTAL_disenchant",
+    "SKIN_RENTAL": "SKIN_RENTAL_disenchant",
+    "WARDSKIN_RENTAL": "WARDSKIN_RENTAL_disenchant",
+    "STATSTONE_SHARD": "STATSTONE_SHARD_DISENCHANT",
+    "SUMMONERICON": "SUMMONERICON_disenchant"
+}
 
 class ApiAccessor:
     def __init__(self):
@@ -26,7 +32,7 @@ class ApiAccessor:
     
     def _get_api_url(self):
         return self.config.get_base_url() + self.api_base
-
+    
     def get_recipe_data(self, item_id):
         url = self._get_api_url() + "/recipes/initial-item/" + item_id
         return self._make_get_request(url).json()
@@ -35,10 +41,7 @@ class ApiAccessor:
         url = self._get_api_url() + "/player-loot"
         return self._make_get_request(url).json()
 
-    def disenchant_champion_shard(self, loot_id, number):
-        #url = self._get_api_url() + f"/recipes/CHAMPION_RENTAL_disenchant/craft?repeat={number}"
-        #data = [loot_id]
-        #returnval = self._make_post_request(url, data).json()
-        with open("output.json", "r") as jsonfile:
-            returnval = json.load(jsonfile)
-        return returnval
+    def disenchant(self, loot_type, loot_id, number):
+        url = self._get_api_url() + f"/recipes/{DISENCHANT_RECIPES[loot_type]}/craft?repeat={number}"
+        data = [loot_id]
+        return self._make_post_request(url, data).json()

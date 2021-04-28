@@ -1,3 +1,4 @@
+from util.apiaccessor import ApiAccessor
 from util.config import Config
 
 class ChampionShardManager:
@@ -7,6 +8,9 @@ class ChampionShardManager:
         self.blue_available = 0
         self.disenchant_count = 0
 
+    def _calculate_extra(self, shard):
+        return shard["count"] - self.minimum
+
     def increment(self, shard, count):
         self.shards.append(shard)
         self.blue_available += shard["disenchantValue"] * count
@@ -14,10 +18,19 @@ class ChampionShardManager:
 
     def process(self, shard):
         self.shards.append(shard)
-        extra = shard["count"] - self.minimum
+        extra = self._calculate_extra(shard)
         if extra > 0:
             self.blue_available += shard["disenchantValue"] * extra
             self.disenchant_count += extra
+
+    def disenchant_extras(self):
+        api_accessor = ApiAccessor()
+        results = []
+        for shard in self.shards:
+            extra = self._calculate_extra(shard)
+            if extra > 0:
+                results.append(api_accessor.disenchant(shard["type"], shard["lootId"], extra))
+        return results
 
     def list_gains(self):
         if len(self.shards) == 0:
@@ -43,6 +56,13 @@ class SkinShardManager:
         self.orange_available = 0
         self.disenchant_count = 0
 
+    def _calculate_extra(self, shard):
+        if self.disenchant_owned and shard["itemStatus"] == "OWNED":
+            extra = shard["count"]
+        else:
+            extra = shard["count"] - self.minimum
+        return extra
+
     def increment(self, shard, count):
         self.shards.append(shard)
         self.orange_available += shard["disenchantValue"] * count
@@ -50,13 +70,19 @@ class SkinShardManager:
 
     def process(self, shard):
         self.shards.append(shard)
-        if self.disenchant_owned and shard["itemStatus"] == "OWNED":
-            extra = shard["count"]
-        else:
-            extra = shard["count"] - self.minimum
+        extra = self._calculate_extra(shard)
         if extra > 0:
             self.orange_available += shard["disenchantValue"] * extra
             self.disenchant_count += extra
+
+    def disenchant_extras(self):
+        api_accessor = ApiAccessor()
+        results = []
+        for shard in self.shards:
+            extra = self._calculate_extra(shard)
+            if extra > 0:
+                results.append(api_accessor.disenchant(shard["type"], shard["lootId"], extra))
+        return results
 
     def list_gains(self, name):
         if len(self.shards) == 0:
@@ -109,6 +135,15 @@ class ShardManager:
             self.eternals.process(shard)
         elif shard["type"] == "SUMMONERICON":
             self.icons.process(shard)
+
+    def disenchant_extras(self):
+        results = []
+        results.extend(self.champions.disenchant_extras())
+        results.extend(self.skins.disenchant_extras())
+        results.extend(self.wardskins.disenchant_extras())
+        results.extend(self.eternals.disenchant_extras())
+        results.extend(self.icons.disenchant_extras())
+        return results
 
     def list_gains(self):
         self.champions.list_gains()
